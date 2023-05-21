@@ -10,3 +10,6 @@
 
  ### Api
  https://randomuser.me
+
+ ### Deployed Link
+ https://infintescrollfaceprep.vercel.app/
