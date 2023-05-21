@@ -9,9 +9,9 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/home" element={
-    
+        <PrivateRoute>
           <Home />
-       } />
+        </PrivateRoute>} />
     </Routes>
   )
 }
