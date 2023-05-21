@@ -13,7 +13,7 @@ libraies like mongoose, express, jsonwebtoken, bcrypt, dotenv and nodemon for se
 
 6.  userModal for schema and then Auth.js as middleware to verify user is loogeed in.
 
-7.  Run and test application using postman done;
+7.  Run and test application using postman done
 
 
 
