@@ -3,7 +3,7 @@
 1 . Created all the folders (config for database, middlewares,controllers,routes .env ,etc) and installed
 libraies like mongoose, express, jsonwebtoken, bcrypt, dotenv and nodemon for server running
 
-2 .created server and .env varables for server running on port 8080;
+2 . created server and .env varables for server running on port 8080;
 
 3 . created routes and then controllers to control those routes.
 
@@ -33,6 +33,6 @@ libraies like mongoose, express, jsonwebtoken, bcrypt, dotenv and nodemon for se
 
 ## learnings
 
-1. There is always some hidden things you have to measures of while solving a problem.
+1. There is always some hidden things you have to take measures of while solving a problem.
 
-2. only the upper layer of problem shouldnot be solved but think about other prospects also. Like , in the provblem statement at least three routes were sked but you hav eto think of how the whole application may work. Register=>Login =>getProfile;
+2. only the upper layer of problem shouldnot be solved but think about other prospects also. Like , in the provblem statement at least three routes were asked but you have to think of how the whole application may work. Register=>Login =>getProfile;
