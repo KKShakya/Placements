@@ -30,7 +30,6 @@ const Login = () => {
     }
   }
 
-
   //will navigate to login page if not loggedin
   if (authenticate) {
     setTimeout(() => {

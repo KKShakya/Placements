@@ -22,7 +22,6 @@ const Home = () => {
 
     setProfiles((prev) => [...prev, ...res.results]);
     setLoading(false);
-
   }
 
   const handleScroll = () => {
