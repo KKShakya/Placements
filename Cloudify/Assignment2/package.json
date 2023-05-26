@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@shopify/shopify-api": "^7.2.0",
+    "node-fetch": "^3.3.1",
+    "request": "^2.88.2",
+    "shopify-api-node": "^3.12.5",
+    "shopify-node-api": "^1.11.1"
+  }
+}
