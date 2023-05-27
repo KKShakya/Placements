@@ -25,6 +25,7 @@ h1{
   gap:.4rem;
   color: #fff;
   border-radius: 5px;
+max-width: 100%;
 }
 
 #source_container h4{
@@ -48,14 +49,18 @@ input[type='submit']{
   padding:.2rem;
 }
 
+.generator>div{
+  display: flex;
+  flex-direction: column;
+}
 
 .generator>div>p{
-  margin: .5rem;
+  margin: .2rem;
 }
 
 .generator>div>input{
-  width:5em;
-  padding: .5rem;
+  width:25%;
+  padding: .5em;
   border-radius: 5px;
 }
 
@@ -78,7 +83,7 @@ input[type='submit']{
   display: block;
   height: 5rem;
   text-align: center;
-  padding: 1rem 4rem; 
+  padding: 1.6rem 4rem; 
   font-size:xx-large;
   border-radius: 6px;
   line-height: 1.5;
@@ -94,4 +99,61 @@ input[type='submit']{
   margin: auto;
 display: flex;
 justify-content: space-around;
+}
+
+
+@media only screen and (max-width: 450px) {
+  body,.text-editor {
+    font-size: small;
+  }
+  .generator>div>p{
+    margin: 1px;
+  }
+  
+  .generator>div>input{
+    width:50%;
+    padding: .5em;
+    border-radius: 5px;
+  }
+}
+
+.aside-left{
+position: fixed;
+ width:20%;
+ left:0;
+ 
+}
+aside>img{
+  width: 100%;
+}
+
+.aside-right{
+  position: fixed;
+  right:0;
+  width: 20%;
+
+}
+.accuracy-wpm{
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+@media only screen and (min-width:450px) and (max-width: 600px) {
+  body,.text-editor {
+    font-size: large;
+  }
+  .generator>div>p{
+    margin: 2px;
+  }
+  
+  .generator>div>input{
+    width:40%;
+    padding: .5em;
+    border-radius: 5px;
+  }
 }
