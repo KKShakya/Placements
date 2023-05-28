@@ -12,102 +12,91 @@ const RESET_START_TIME = "reset/startTime"
 // conbination is to derive how many words to be included
 // repition is to repeat those  combinations
 // next is to set new visualtext once user finishes all the text corretly
-//start time before typing
-//end time when user finishes 5 minute window
+//start timer = 300 seconds === 5 minutes
 
 const initialState = {
-  n:2,
-  visualText:'',
-  combination:2,
-  repetition:3,
-  next:false,
-  startTime:null,
-  endTime:null,
+  n: 2,
+  visualText: '',
+  combination: 2,
+  repetition: 3,
+  next: false,
+  startTime: 10,
 }
 
 
 
-export const updateCombination = (val=2)=>({
-  type:UPDATE_COMBINATION,
-  payload:Number(val)
+export const updateCombination = (val = 2) => ({
+  type: UPDATE_COMBINATION,
+  payload: Number(val)
 })
 
-export const updateRepetition = (val=3)=>({
-  type:UPDATE_REPITITION,
-  payload:Number(val)
+export const updateRepetition = (val = 3) => ({
+  type: UPDATE_REPITITION,
+  payload: Number(val)
 })
 
-export const updateSource = (val=2)=>({
-  type:UPDATE_SOURCE,
-  payload:Number(val)
+export const updateSource = (val = 2) => ({
+  type: UPDATE_SOURCE,
+  payload: Number(val)
 })
 
-export const updateNext = (prev)=>({
-  type:UPDATE_TEXT,
-  payload:!prev,
+export const updateNext = (prev) => ({
+  type: UPDATE_TEXT,
+  payload: !prev,
 })
 
-export const updateVisualText = (text="")=>({
-  type:UPDATE_VISUAL_TEXT,
-  payload:text,
+export const updateVisualText = (text = "") => ({
+  type: UPDATE_VISUAL_TEXT,
+  payload: text,
 })
 
 
-export const stopEndTime = (val)=>({
-  type:STOP_END_TIME,
-  payload:val
-}
-)
-export const resetStartTime = (val)=>({
-  type:RESET_START_TIME,
-  payload:val
+
+
+export const resetStartTime = (val) => ({
+  type: RESET_START_TIME,
+  payload: val
 }
 )
 
-export const typingReducer = (state=initialState,{type,payload})=>{
-   
+export const typingReducer = (state = initialState, { type, payload }) => {
+
   switch (type) {
     case UPDATE_COMBINATION: {
       return {
         ...state,
-        combination:payload
+        combination: payload
       };
     }
     case UPDATE_REPITITION: {
       return {
         ...state,
-        repetition:payload
+        repetition: payload
       };
     }
     case UPDATE_SOURCE: {
       return {
         ...state,
-        n:payload
+        n: payload
       };
     }
     case UPDATE_TEXT: {
       return {
         ...state,
-        next:payload
+        next: payload
       };
     }
     case UPDATE_VISUAL_TEXT: {
       return {
         ...state,
-        visualText:payload
+        visualText: payload
       };
     }
 
-    case STOP_END_TIME: {
-      return {
-        ...state,
-        endTime:payload
-      };
-    }
     case RESET_START_TIME: {
       return {
         ...state,
-        startTime:payload
+        startTime: payload
       };
     }
 

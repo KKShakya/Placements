@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { resetStartTime, stopEndTime, updateCombination, updateNext, updateRepetition, updateSource, updateVisualText } from '../redux/typingReducer';
-import { genWordlist, shuffleArray, repeat } from './HomehelperFunctions';
+
+import { resetStartTime, updateCombination, updateNext, updateRepetition, updateSource, updateVisualText } from '../redux/typingReducer';
+import { genWordlist, shuffleArray, repeat } from '../components/HomehelperFunctions';
+
+import Click from '../assets/media/click.mp3'
+import ding from '../assets/media/ding.wav'
+import clack from '../assets/media/clack.mp3'
+
 import './home.css'
 
 
@@ -15,16 +21,25 @@ const Home = () => {
   // next updates the visal text for the user to enter new text once he finished previous typing
   // current index checks for the visual text and typed text character matching
 
+  //root to build visualText
   const letters = ['a', 's', 'd', 'f', 'j', 'k', 'l'];
+
+
+  // currentIndex manages the index of visualtext to match with user input
+  //WPM checks for Words per minute
+  //totalTyped Char checks for the length of user input
+  //accuracy determines user Accuracy in 5 min time frame
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [WPM, setWPM] = useState(0)
-  const [currectChar,setChar] = useState(0);
+  const [totalTypedChar, setChar] = useState(0);
   const [accuracy, setAccuracy] = useState(0)
-  
+
+
+
 
   // redux useCase connections
-  const { n, combination, repetition, visualText, next,startTime,endTime } = useSelector((store) => store)
+  const { n, combination, repetition, visualText, next, startTime } = useSelector((store) => store)
   const dispatch = useDispatch();
 
 
@@ -33,35 +48,53 @@ const Home = () => {
     dispatch(updateSource(e.target.value))
   }
 
-  const handleWPM = ()=>{
-    let time = Math.floor((endTime-startTime)/60000);
-    let wpm = Math.abs(Math.round(visualText.length/time));
-    let acc = Math.floor((currectChar-visualText.length)/visualText.length)*100;
+  const handleWPMandAccuracy = () => {
+
+    let finishSound = document.querySelector('#finish-audio');
+
+    //Wpm dividing total typed Characters with 5 
+    //as it is 5 minute window and also we have 300 seonds
+    let wpm = Math.abs(Math.round(totalTypedChar / 5));
+    let acc = ((visualText.length - 1) / totalTypedChar) * 100;
+
+    //wpm , accuracy  and Index set to desired values
     setWPM(wpm);
-   
-    setAccuracy(Math.abs(acc));
+    setAccuracy(acc.toFixed(0));
     setChar(0)
+    finishSound.play();
   }
 
-  
+
 
   //function to capture the keys pressed on keyborad through window event listener
   const handleKeyDown = (e) => {
 
-   if(startTime === null){
-     dispatch(resetStartTime(new Date().getTime()))
-   }
-   
+    let clickAudio = document.querySelector('#click-audio');
+    let wrongKey = document.querySelector('#clack-audio');
+
     const { key } = e;
     const currentKey = visualText[currentIndex];
-    setChar((prevChar) =>prevChar+1);
 
+    setChar((prevChar) => prevChar + 1);
+    let textArea = document.querySelector('#tex')
+    
+    
     if (key === currentKey) {
+      
+      clickAudio.play();
+      
       setCurrentIndex((prevIndex) => prevIndex + 1);
+
       if (currentIndex + 1 === visualText.length) {
         dispatch(updateNext(next))
-        handleWPM();
       }
+      textArea.classList.remove('wrong-key');
+    }
+    else {
+
+      textArea.classList.add('wrong-key')
+ 
+      wrongKey.play();
     }
   };
 
@@ -76,11 +109,18 @@ const Home = () => {
     const text = shuffleArray(result, combination)
     const final_text = repeat(repetition, text)
 
-    setTimeout(()=>{
+    setTimeout(() => {
       dispatch(updateVisualText(final_text));
-      
-    },100)
-   
+
+    }, 100)
+    
+     window.addEventListener('load',()=>{
+      document.querySelector('#tex').focus();
+     })
+
+      return ()=>{window.addEventListener('load',()=>{
+        document.querySelector('#tex').focus();
+       })}
   }, [n, combination, repetition, next])
 
 
@@ -103,17 +143,29 @@ const Home = () => {
     setCurrentIndex(0)
   }, [visualText])
 
-useEffect(()=>{
+
+  //timer useEffect
+  useEffect(() => {
+    let timer
+
+    if (startTime === 0) {
+      handleWPMandAccuracy();
+    }
 
     // Timer logic for 5 minutes
-    const timer = setTimeout(() => {
+    timer = setInterval(() => {
 
-      dispatch(stopEndTime(new Date().getTime()));
-      
-    }, 5*60*1000); 
+      dispatch(resetStartTime(startTime - 1))
+    }, 1000);
+
     // Cleanup function to clear the timer 
     return () => clearTimeout(timer);
-},[dispatch])
+
+  }, [startTime])
+
+
+
+
 
 
   return (
@@ -171,6 +223,20 @@ useEffect(()=>{
 
       </div>
 
+      {/* audios for different occasion
+        click => for every key typed
+        clack => every wrong key
+        ding for every session  5 minutes
+      */}
+      <audio id="click-audio">
+        <source src={Click} type="audio/mpeg" />
+      </audio>
+      <audio id="clack-audio">
+        <source src={clack} type="audio/mpeg" />
+      </audio>
+      <audio id="finish-audio">
+        <source src={ding} type="audio/wav" />
+      </audio>
     </div>
   )
 }
