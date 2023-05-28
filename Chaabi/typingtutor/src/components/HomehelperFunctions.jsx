@@ -13,7 +13,7 @@ export  const genWordlist = function (n, letters) {
   };
 
   helper("", 0);
-  return results.filter((words)=>words.length==n);
+  return results.filter((words)=>words.length===n);
 };
 
 

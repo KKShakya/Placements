@@ -39,32 +39,56 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+# Variables naming
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-- most of the states managed by redux store
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Redux
 
-### Code Splitting
+1. visualText is for User view What to type
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. combinations is to derive how many words to be included
 
-### Analyzing the Bundle Size
+3. repitition is to repeat those combinations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. next is to set new visualText once user finishes all the text correctly
 
-### Making a Progressive Web App
+5. startTimer = 300 seconds === 5 minutes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+6. minutes and seconds are timer related updations
 
-### Advanced Configuration
+7. n is the length of words
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+ </br>
+ </br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### useState
 
-### `npm run build` fails to minify
+1. WPM checks for Words per minute
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. current index checks for the visual text and typed text character matching
+
+3. correctChar Char checks for the length of correct user input
+
+4. totalTyped Char checks for the length of total user input, to calulate WPM typed
+
+
+ </br>
+ </br>
+
+### App working
+
+1. The app loads and the timer starts with foucs on the typing area textbox;
+
+2. As the user types in the sounds are managed for correct and wrong keys with background changes to red;
+
+3. User can reset the timer, change number of words from source, generate multiple combinations and repetitions.
+
+ </br>
+ </br>
+
+
+## screenshots
+
+![Home page Image](./src/assets/images/Screenshot%20(247).png)

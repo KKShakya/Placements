@@ -4,8 +4,9 @@ const UPDATE_COMBINATION = "Update/combination"
 const UPDATE_SOURCE = "Update/source"
 const UPDATE_TEXT = "Update/text"
 const UPDATE_VISUAL_TEXT = "Update/visual/text"
-const STOP_END_TIME = "stop/endTime"
 const RESET_START_TIME = "reset/startTime"
+const UPDATE_MINUTES = "update/minutes"
+const UPDATE_SECONDS = "update/seconds"
 
 
 // visual text is for User view What to type
@@ -13,6 +14,7 @@ const RESET_START_TIME = "reset/startTime"
 // repition is to repeat those  combinations
 // next is to set new visualtext once user finishes all the text corretly
 //start timer = 300 seconds === 5 minutes
+//minutes and seconds are timer related updations
 
 const initialState = {
   n: 2,
@@ -20,7 +22,9 @@ const initialState = {
   combination: 2,
   repetition: 3,
   next: false,
-  startTime: 10,
+  startTime: 300,
+  minutes:"",
+  seconds:"",
 }
 
 
@@ -51,7 +55,15 @@ export const updateVisualText = (text = "") => ({
 })
 
 
+export const updateMinutes = (val)=>({
+  type: UPDATE_MINUTES,
+  payload:val,
+})
 
+export const updateSeconds = (val)=>({
+  type: UPDATE_SECONDS,
+  payload:val,
+})
 
 export const resetStartTime = (val) => ({
   type: RESET_START_TIME,
@@ -68,30 +80,53 @@ export const typingReducer = (state = initialState, { type, payload }) => {
         combination: payload
       };
     }
+
+
     case UPDATE_REPITITION: {
       return {
         ...state,
         repetition: payload
       };
     }
+
+
     case UPDATE_SOURCE: {
       return {
         ...state,
         n: payload
       };
     }
+
+
     case UPDATE_TEXT: {
       return {
         ...state,
         next: payload
       };
     }
+
+    case UPDATE_MINUTES: {
+      return {
+        ...state,
+        minutes: payload
+      };
+    }
+
+    case UPDATE_SECONDS: {
+      return {
+        ...state,
+        seconds: payload
+      };
+    }
+
     case UPDATE_VISUAL_TEXT: {
       return {
         ...state,
         visualText: payload
       };
     }
+
+
 
     case RESET_START_TIME: {
       return {

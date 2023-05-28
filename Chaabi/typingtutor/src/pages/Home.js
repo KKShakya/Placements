@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { resetStartTime, updateCombination, updateNext, updateRepetition, updateSource, updateVisualText } from '../redux/typingReducer';
+import {
+  resetStartTime,
+  updateCombination,
+  updateNext,
+  updateRepetition,
+  updateSource,
+  updateVisualText,
+  updateMinutes,
+  updateSeconds
+} from '../redux/typingReducer';
 import { genWordlist, shuffleArray, repeat } from '../components/HomehelperFunctions';
 
 import Click from '../assets/media/click.mp3'
@@ -14,32 +23,27 @@ import './home.css'
 
 
 const Home = () => {
-  // visual text is for view of the user
-  // n is the length  of words
-  // combination defines how many words you need in text
-  // repition defines the repition of the same combinination
-  // next updates the visal text for the user to enter new text once he finished previous typing
-  // current index checks for the visual text and typed text character matching
-
+ 
+  
   //root to build visualText
   const letters = ['a', 's', 'd', 'f', 'j', 'k', 'l'];
-
-
-  // currentIndex manages the index of visualtext to match with user input
+  
+  
   //WPM checks for Words per minute
-  //totalTyped Char checks for the length of user input
+  // current index checks for the visual text and typed text character matching
+  //correctChar Char checks for the length of correct user input
+  //totalTyped Char checks for the length of total user input, to calulate WPM typed
   //accuracy determines user Accuracy in 5 min time frame
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [WPM, setWPM] = useState(0)
+  const [correctChar, setCorrect] = useState(0);
   const [totalTypedChar, setChar] = useState(0);
-  const [accuracy, setAccuracy] = useState(0)
-
-
+  const [accuracy, setAccuracy] = useState(0);
 
 
   // redux useCase connections
-  const { n, combination, repetition, visualText, next, startTime } = useSelector((store) => store)
+  const { n, combination, repetition, visualText, next, startTime, minutes, seconds } = useSelector((store) => store)
   const dispatch = useDispatch();
 
 
@@ -48,20 +52,27 @@ const Home = () => {
     dispatch(updateSource(e.target.value))
   }
 
+
+
   const handleWPMandAccuracy = () => {
 
     let finishSound = document.querySelector('#finish-audio');
-
     //Wpm dividing total typed Characters with 5 
     //as it is 5 minute window and also we have 300 seonds
     let wpm = Math.abs(Math.round(totalTypedChar / 5));
-    let acc = ((visualText.length - 1) / totalTypedChar) * 100;
+
+    let acc = totalTypedChar == 0 ? 0 : (correctChar / totalTypedChar) * 100;
 
     //wpm , accuracy  and Index set to desired values
     setWPM(wpm);
     setAccuracy(acc.toFixed(0));
     setChar(0)
-    finishSound.play();
+    setCorrect(0)
+
+    if (totalTypedChar !== 0) {
+
+      finishSound.play();
+    }
   }
 
 
@@ -69,31 +80,32 @@ const Home = () => {
   //function to capture the keys pressed on keyborad through window event listener
   const handleKeyDown = (e) => {
 
+
     let clickAudio = document.querySelector('#click-audio');
     let wrongKey = document.querySelector('#clack-audio');
 
     const { key } = e;
     const currentKey = visualText[currentIndex];
 
-    setChar((prevChar) => prevChar + 1);
     let textArea = document.querySelector('#tex')
-    
-    
+    setChar((prev) => prev + 1);
+
     if (key === currentKey) {
-      
+
       clickAudio.play();
-      
+      setCorrect(correct => correct + 1)
       setCurrentIndex((prevIndex) => prevIndex + 1);
 
       if (currentIndex + 1 === visualText.length) {
-        dispatch(updateNext(next))
+        dispatch(updateNext(next));
+
       }
       textArea.classList.remove('wrong-key');
     }
     else {
 
       textArea.classList.add('wrong-key')
- 
+
       wrongKey.play();
     }
   };
@@ -113,15 +125,18 @@ const Home = () => {
       dispatch(updateVisualText(final_text));
 
     }, 100)
-    
-     window.addEventListener('load',()=>{
-      document.querySelector('#tex').focus();
-     })
 
-      return ()=>{window.addEventListener('load',()=>{
+    window.addEventListener('load', () => {
+      document.querySelector('#tex').focus();
+    })
+
+    return () => {
+      window.addEventListener('load', () => {
         document.querySelector('#tex').focus();
-       })}
+      })
+    }
   }, [n, combination, repetition, next])
+
 
 
   //handles the typing area value and event listener
@@ -138,10 +153,13 @@ const Home = () => {
   }, [currentIndex, visualText])
 
 
+
+
   //handles the curentindex reset once visual text changes
   useEffect(() => {
     setCurrentIndex(0)
   }, [visualText])
+
 
 
   //timer useEffect
@@ -155,7 +173,10 @@ const Home = () => {
     // Timer logic for 5 minutes
     timer = setInterval(() => {
 
+      dispatch(updateMinutes(Math.floor(startTime / 60)));
+      dispatch(updateSeconds(startTime % 60));
       dispatch(resetStartTime(startTime - 1))
+
     }, 1000);
 
     // Cleanup function to clear the timer 
@@ -166,15 +187,22 @@ const Home = () => {
 
 
 
-
-
+  // Skeleton of the body starts form here
   return (
     <div>
       {/* coantiner for all */}
 
+
+        <h1>Typing Tutor</h1>
       {/* conatiner of source and typing */}
       <div id="container">
-        <h1>Typing Tutor</h1>
+
+
+        <div>
+          <p id="timer">00:0{minutes}:{seconds == 0 ? '0' : ''}{seconds}</p>
+          <button id='reset' onClick={()=>dispatch(resetStartTime(300))}>Reset</button>
+        </div>
+
 
         {/* div to genrate the text for typing, */}
         <div id="source_container">

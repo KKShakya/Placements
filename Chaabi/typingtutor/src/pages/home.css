@@ -5,16 +5,37 @@
 
 }
 
+
 #container {
   width: 90%;
   margin: 2em auto;
 }
 
 h1 {
+  margin-top: 1em;
   font-family: cursive;
 }
 
+#container>div:nth-child(1){
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-around;
+}
 
+
+#timer,#reset {
+  padding: 1rem;
+  margin: .5rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: fit-content;
+  font-weight: 600;
+}
+
+#reset{
+  background: #27374d;
+  color:#fff;
+}
 
 #source_container {
   width: 60%;
