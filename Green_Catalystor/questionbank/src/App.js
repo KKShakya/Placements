@@ -36,6 +36,7 @@ function App() {
     let subject = e.target.value;
 
     dispatch(fillQuestionBank(data[subject]));
+    dispatch(fillQuestions([]));
   }
 
 
@@ -46,11 +47,15 @@ function App() {
 
 
     if (order === 'rotate') {
+      console.log(12)
       // since we need previous state to know the rotation sequence
-      result = [...ques]
+      if(ques.length!=0){
+        result = [...ques]
+      }
       result.push(result.shift());
     }
     else if (order === 'randomize') {
+      console.log(10)
       result.sort(() => Math.random() - 0.5);
     }
 
@@ -66,7 +71,7 @@ function App() {
 
 
 
-
+console.log(ques)
 
   return (
     <div className="App">

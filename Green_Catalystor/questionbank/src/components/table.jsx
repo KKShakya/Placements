@@ -6,15 +6,15 @@ const Table = ({ questions, title }) => {
 
   return (
 
-    <table className="table table-bordered table-striped table-hover table-info">
+    <table className="table table-striped table-hover table-info ">
       <thead>
         <tr><td className='text text-bg-info' colSpan={2}>{title}</td></tr>
       </thead>
       <tbody>
         {questions.length > 0 && questions.map((item) => (
           <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.ques}</td></tr>
+            <td>{item.id}.</td>
+            <td className='text text-start'>{item.ques}</td></tr>
         ))}
       </tbody>
     </table>
